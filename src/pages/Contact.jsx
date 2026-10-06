@@ -1,71 +1,93 @@
 import React, { useState } from 'react'
+import { Breadcrumbs } from '../components/Section'
+import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
-
-const cards = [
-  { title: 'Call Us', line: '(555) 246-7890', sub: 'Mon–Sat, 9:00–18:00', href: 'tel:+15552467890', icon: '☎' },
-  { title: 'Email Us', line: 'hello@horizonproperties.com', sub: 'We reply within one business day', href: 'mailto:hello@horizonproperties.com', icon: '✉' },
-  { title: 'Visit Us', line: '1200 Congress Avenue, Suite 400', sub: 'Austin, TX 78701', href: '#', icon: '⌖' },
-]
+import Seo from '../components/Seo'
+import { PHONE, PHONE_INTL, businessHours } from '../data/site'
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
 
   return (
     <>
-      <section className="page-hero" aria-label="Contact">
+      <Seo title="تماس با ما" description="تماس با آتریا الکترونیک — مشاوره تخصصی و ثبت سفارش: ۰۹۱۲۶۷۰۹۶۱۸" />
+      <section className="page-hero" aria-label="تماس با ما">
         <div className="container">
-          <nav className="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">Contact</span></nav>
-          <h1>Get in Touch</h1>
-          <p>Tell us what you're looking for — an advisor will respond within one business day.</p>
+          <Breadcrumbs items={[{ label: 'صفحه اصلی', to: '/' }, { label: 'تماس با ما' }]} />
+          <h1>تماس با ما</h1>
+          <p>برای مشاوره تخصصی، ثبت سفارش و پشتیبانی فنی با ما در ارتباط باشید.</p>
         </div>
       </section>
 
-      <section className="section section-contact" aria-label="Contact form and details">
+      <section className="section" aria-label="اطلاعات تماس و فرم">
         <div className="container contact-grid">
           <div>
             <div className="contact-cards">
-              {cards.map((c, i) => (
-                <Reveal as="a" className="contact-card" href={c.href} key={c.title} delay={i * 60}>
-                  <span className="contact-icon" aria-hidden="true">{c.icon}</span>
-                  <div>
-                    <h3>{c.title}</h3>
-                    <p>{c.line}</p>
-                    <small>{c.sub}</small>
-                  </div>
-                </Reveal>
-              ))}
+              <Reveal as="a" className="contact-card" href={`tel:${PHONE_INTL}`}>
+                <span className="contact-icon"><Icon name="phone" size={20} /></span>
+                <div>
+                  <h3>تماس تلفنی</h3>
+                  <p dir="ltr">{PHONE}</p>
+                  <small>شنبه تا چهارشنبه ۹ تا ۱۷، پنجشنبه ۹ تا ۱۳</small>
+                </div>
+              </Reveal>
+              <Reveal className="contact-card" delay={60}>
+                <span className="contact-icon"><Icon name="pin" size={20} /></span>
+                <div>
+                  <h3>آدرس فروشگاه</h3>
+                  <p>آدرس فروشگاه حضوری: به‌زودی تکمیل می‌شود</p>
+                </div>
+              </Reveal>
+              <Reveal className="contact-card" delay={120}>
+                <span className="contact-icon"><Icon name="clock" size={20} /></span>
+                <div>
+                  <h3>ساعات کاری</h3>
+                  {businessHours.map((h) => (
+                    <p key={h.days} className="hours-line">{h.days}: {h.hours}</p>
+                  ))}
+                </div>
+              </Reveal>
             </div>
-            <Reveal className="contact-map" delay={150}>
-              <img src="/images/pool.jpg" alt="Horizon Properties headquarters area at dusk" loading="lazy" />
+            <Reveal className="contact-map" delay={150} aria-label="نقشه (به‌زودی)">
+              <svg viewBox="0 0 600 260" role="img" aria-label="جایگاه نقشه — به‌زودی تکمیل می‌شود">
+                <rect width="600" height="260" fill="#eef1f6" />
+                <g stroke="#dde3ec" strokeWidth="2">
+                  <path d="M0 60h600M0 140h600M0 210h600M90 0v260M230 0v260M380 0v260M510 0v260" />
+                </g>
+                <circle cx="300" cy="130" r="34" fill="#f7b500" opacity="0.9" />
+                <path d="M292 112l-9 15h7l-2 14 9-15h-7l2-14Z" fill="#031731" />
+                <text x="300" y="192" textAnchor="middle" fontFamily="Vazirmatn, sans-serif" fontSize="15" fill="#031731">موقعیت فروشگاه — به‌زودی</text>
+              </svg>
             </Reveal>
           </div>
 
           <Reveal className="contact-form-wrap" delay={100}>
             {sent ? (
               <div className="success-box" role="status">
-                <span className="success-icon" aria-hidden="true">✓</span>
-                <h3>Message sent</h3>
-                <p>Thank you — one of our advisors will be in touch shortly.</p>
-                <button className="btn btn-outline" onClick={() => setSent(false)}>Send another message</button>
+                <span className="success-icon">✓</span>
+                <h3>پیام شما ثبت شد</h3>
+                <p>کارشناسان ما در اولین فرصت کاری با شما تماس می‌گیرند. برای پاسخ فوری: <a href={`tel:${PHONE_INTL}`} dir="ltr">{PHONE}</a></p>
+                <button className="btn btn-outline" onClick={() => setSent(false)}>ارسال پیام جدید</button>
               </div>
             ) : (
               <>
-                <span className="label-gold">Contact Form</span>
-                <h2>Send Us a Message</h2>
+                <span className="section-label">فرم تماس</span>
+                <h2>پیام شما</h2>
                 <form className="form-grid" onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
-                  <div className="field"><label htmlFor="c-name">Full name</label><input id="c-name" required placeholder="Jane Doe" /></div>
-                  <div className="field"><label htmlFor="c-email">Email</label><input id="c-email" type="email" required placeholder="jane@email.com" /></div>
-                  <div className="field"><label htmlFor="c-phone">Phone</label><input id="c-phone" type="tel" placeholder="(555) 000-0000" /></div>
-                  <div className="field"><label htmlFor="c-interest">I'm interested in</label>
-                    <select id="c-interest">
-                      <option>Buying a property</option>
-                      <option>Selling a property</option>
-                      <option>Investment advisory</option>
-                      <option>Something else</option>
+                  <div className="field"><label htmlFor="c-name">نام</label><input id="c-name" required placeholder="نام" /></div>
+                  <div className="field"><label htmlFor="c-family">نام خانوادگی</label><input id="c-family" required placeholder="نام خانوادگی" /></div>
+                  <div className="field"><label htmlFor="c-phone">شماره تماس</label><input id="c-phone" type="tel" required placeholder="09xxxxxxxxx" dir="ltr" /></div>
+                  <div className="field"><label htmlFor="c-email">ایمیل (اختیاری)</label><input id="c-email" type="email" placeholder="you@example.com" dir="ltr" /></div>
+                  <div className="field field-full"><label htmlFor="c-subject">موضوع</label>
+                    <select id="c-subject">
+                      <option>مشاوره خرید</option>
+                      <option>پیگیری سفارش</option>
+                      <option>پشتیبانی فنی</option>
+                      <option>سایر موارد</option>
                     </select>
                   </div>
-                  <div className="field field-full"><label htmlFor="c-msg">Message</label><textarea id="c-msg" rows="5" required placeholder="Tell us about your goals…" /></div>
-                  <button type="submit" className="btn btn-primary btn-block">Send Message →</button>
+                  <div className="field field-full"><label htmlFor="c-msg">پیام</label><textarea id="c-msg" rows="5" required placeholder="پیام خود را بنویسید…" /></div>
+                  <button type="submit" className="btn btn-gold btn-block">ارسال پیام</button>
                 </form>
               </>
             )}

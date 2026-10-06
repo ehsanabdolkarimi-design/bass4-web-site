@@ -1,62 +1,61 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Breadcrumbs } from '../components/Section'
+import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
-import SectionHeading from '../components/SectionHeading'
-import CTASection from '../components/CTASection'
-import { stats } from '../data/team'
-
-const values = [
-  { title: 'Integrity First', text: 'Straight answers and transparent advice — even when it costs us a deal.' },
-  { title: 'Design Obsessed', text: 'We represent homes worth remembering, and present them that way.' },
-  { title: 'Client for Life', text: 'Most of our business comes from referrals and repeat clients.' },
-]
+import Seo, { orgJsonLd } from '../components/Seo'
+import { whyAtrya, businessHours, PHONE, PHONE_INTL, LOGO_WHITE } from '../data/site'
+import { stats } from './aboutStats'
 
 export default function About() {
   return (
     <>
-      <section className="page-hero" aria-label="About us">
+      <Seo title="درباره ما" description="آتریا الکترونیک، فروشگاه تخصصی تجهیزات الکترونیکی و منابع تغذیه صنعتی — عرضه‌کننده پاور سوئیچینگ، آداپتور و محصولات LED برند ONYX." jsonLd={[orgJsonLd()]} />
+      <section className="page-hero" aria-label="درباره ما">
         <div className="container">
-          <nav className="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">About Us</span></nav>
-          <h1>Who We Are</h1>
-          <p>A boutique agency built on architecture, market intelligence and long-term relationships.</p>
+          <Breadcrumbs items={[{ label: 'صفحه اصلی', to: '/' }, { label: 'درباره ما' }]} />
+          <h1>درباره آتریا الکترونیک</h1>
+          <p>فروشگاه تخصصی منابع تغذیه، آداپتور و محصولات LED</p>
         </div>
       </section>
 
-      <section className="section section-about" aria-label="Our story">
+      <section className="section" aria-label="معرفی شرکت">
         <div className="container about-grid">
           <Reveal className="about-copy">
-            <span className="label-gold">Our Story</span>
-            <h2>Built on Trust, Guided by Taste</h2>
+            <span className="section-label">معرفی</span>
+            <h2>فروشگاه تخصصی و قابل اعتماد</h2>
             <p>
-              Horizon Properties was founded in 2001 with a simple conviction: buying or selling an
-              exceptional home should feel as considered as the home itself. We keep our roster of
-              listings deliberately small and our standards deliberately high.
+              آتریا الکترونیک یک فروشگاه تخصصی و قابل اعتماد در زمینه تجهیزات الکترونیکی و منابع تغذیه است.
+              فعالیت ما بر عرضه پاورهای سوئیچینگ ۱۲ ولت و ۲۴ ولت صنعتی، پاورهای اسلیم، فن‌دار و ضد آب،
+              آداپتورها و محصولات LED تمرکز دارد و برند محصولی ما ONYX است.
             </p>
-            <p className="about-sub">
-              Today our advisors represent clients across Texas, California, Arizona, Nevada and
-              Florida — from lakefront villas to skyline penthouses.
+            <p>
+              تیم ما از شناخت دقیق فنی محصولات، بازار و نیاز واقعی مشتریان برخوردار است؛ به همین دلیل
+              پیش از هر خرید، مشاوره تخصصی ارائه می‌دهیم تا ولتاژ، آمپراژ و نوع پاورِ درست برای پروژه شما انتخاب شود.
             </p>
-            <Link to="/team" className="btn btn-outline">Meet the Team <span aria-hidden="true">→</span></Link>
+            <p>
+              ضمانت اصالت کالا، پشتیبانی فنی پس از خرید و قیمت‌گذاری منصفانه، سه رکنی است که آتریا الکترونیک
+              بر آن‌ها پایدار ایستاده است.
+            </p>
+            <Link to="/shop" className="btn btn-primary">مشاهده محصولات</Link>
           </Reveal>
           <Reveal className="about-media" delay={120}>
-            <div className="about-main"><img src="/images/about-main.jpg" alt="Modern luxury home with pool at dusk" loading="lazy" /></div>
-            <div className="about-side"><img src="/images/about-side.jpg" alt="Residence terrace in the evening" loading="lazy" /></div>
+            <img src={LOGO_WHITE} alt="لوگوی آتریا الکترونیک" width="220" height="220" loading="lazy" />
           </Reveal>
         </div>
       </section>
 
-      <section className="section section-values" aria-label="Our values">
+      <section className="section section-why" aria-label="ارزش‌ها">
         <div className="container">
-          <SectionHeading label="Our Values" title="What We Stand For" />
-          <div className="services-grid">
-            {values.map((v, i) => (
-              <Reveal as="article" className="service-row" key={v.title} delay={i * 70}>
-                <span className="service-num">{String(i + 1).padStart(2, '0')}</span>
-                <div><h3>{v.title}</h3><p>{v.text}</p></div>
+          <div className="why-grid">
+            {whyAtrya.slice(0, 6).map((w, i) => (
+              <Reveal as="article" className="why-card" key={w.title} delay={i * 50}>
+                <span className="why-icon"><Icon name={w.icon} size={24} /></span>
+                <div><h3>{w.title}</h3><p>{w.text}</p></div>
               </Reveal>
             ))}
           </div>
-          <Reveal className="stats-row stats-bordered" delay={150}>
+          <Reveal className="stats-row">
             {stats.map((s) => (
               <div className="stat" key={s.label}><strong>{s.value}</strong><span>{s.label}</span></div>
             ))}
@@ -64,7 +63,21 @@ export default function About() {
         </div>
       </section>
 
-      <CTASection />
+      <section className="section section-hours" aria-label="ساعات کاری">
+        <div className="container">
+          <Reveal className="hours-band">
+            <div>
+              <h2>کنار شما هستیم</h2>
+              <ul className="hours-list">
+                {businessHours.map((h) => (
+                  <li key={h.days}><Icon name="clock" size={16} /><strong>{h.days}:</strong><span>{h.hours}</span></li>
+                ))}
+              </ul>
+            </div>
+            <a href={`tel:${PHONE_INTL}`} className="btn btn-gold" dir="ltr"><Icon name="phone" size={16} /> {PHONE}</a>
+          </Reveal>
+        </div>
+      </section>
     </>
   )
 }

@@ -1,64 +1,62 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Routes, Route, useLocation, Link } from 'react-router-dom'
+import { StoreProvider } from './context/StoreContext'
+import TopBar from './components/TopBar'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import CartDrawer from './components/CartDrawer'
 import Home from './pages/Home'
-import Properties from './pages/Properties'
-import PropertyDetail from './pages/PropertyDetail'
+import Shop from './pages/Shop'
+import ProductDetail from './pages/ProductDetail'
+import Articles from './pages/Articles'
+import ArticleDetail from './pages/ArticleDetail'
 import About from './pages/About'
-import Services from './pages/Services'
-import Team from './pages/Team'
 import Contact from './pages/Contact'
-
-const FavoritesContext = createContext({ favorites: [], toggle: () => {}, has: () => false })
-export const useFavorites = () => useContext(FavoritesContext)
+import Checkout from './pages/Checkout'
+import Wishlist from './pages/Wishlist'
+import Brands from './pages/Brands'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [pathname])
+  }, [pathname, search])
   return null
 }
 
-const STORAGE_KEY = 'horizon-favorites'
+function NotFound() {
+  return (
+    <section className="page-hero"><div className="container">
+      <h1>صفحه یافت نشد</h1>
+      <p style={{ marginTop: 12 }}>ممکن است آدرس تغییر کرده باشد.</p>
+      <Link to="/" className="btn btn-gold" style={{ marginTop: 20 }}>بازگشت به صفحه اصلی</Link>
+    </div></section>
+  )
+}
 
 export default function App() {
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
-    } catch {
-      return []
-    }
-  })
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites))
-  }, [favorites])
-
-  const toggle = useCallback((id) => {
-    setFavorites((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]))
-  }, [])
-
-  const has = useCallback((id) => favorites.includes(id), [favorites])
-
   return (
-    <FavoritesContext.Provider value={{ favorites, toggle, has }}>
+    <StoreProvider>
       <ScrollToTop />
+      <TopBar />
       <Header />
+      <CartDrawer />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/properties" element={<Properties />} />
-          <Route path="/properties/:id" element={<PropertyDetail />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/article/:id" element={<ArticleDetail />} />
           <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Home />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/brands" element={<Brands />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
-    </FavoritesContext.Provider>
+    </StoreProvider>
   )
 }

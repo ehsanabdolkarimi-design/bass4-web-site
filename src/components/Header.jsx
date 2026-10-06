@@ -1,102 +1,156 @@
-import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import Icon from './Icon'
+import { useStore } from '../context/StoreContext'
+import { navLinks, LOGO_HEADER, PHONE, PHONE_INTL } from '../data/site'
+import { products } from '../data/products'
+import { faPrice } from '../utils/format'
 
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/properties', label: 'Properties' },
-  { to: '/about', label: 'About Us' },
-  { to: '/services', label: 'Services' },
-  { to: '/team', label: 'Team' },
-  { to: '/contact', label: 'Contact' },
-]
+function SearchBar({ mobile = false }) {
+  const [q, setQ] = useState('')
+  const [focused, setFocused] = useState(false)
+  const boxRef = useRef(null)
+  const navigate = useNavigate()
 
-export function Logo({ dark = false }) {
+  const suggestions = q.trim()
+    ? products
+        .filter((p) => {
+          const t = q.trim().toLowerCase()
+          return (
+            p.name.toLowerCase().includes(t) ||
+            p.brand.toLowerCase().includes(t) ||
+            p.type.includes(q.trim()) ||
+            String(p.voltage).includes(q.trim()) ||
+            String(p.current).includes(q.trim()) ||
+            p.sku.toLowerCase().includes(t)
+          )
+        })
+        .slice(0, 5)
+    : []
+
+  useEffect(() => {
+    const onDoc = (e) => {
+      if (boxRef.current && !boxRef.current.contains(e.target)) setFocused(false)
+    }
+    document.addEventListener('pointerdown', onDoc)
+    return () => document.removeEventListener('pointerdown', onDoc)
+  }, [])
+
+  const submit = (e) => {
+    e.preventDefault()
+    if (q.trim()) {
+      navigate(`/shop?q=${encodeURIComponent(q.trim())}`)
+      setQ('')
+      setFocused(false)
+    }
+  }
+
   return (
-    <Link to="/" className="logo" aria-label="Horizon Properties — Home">
-      <svg className="logo-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <rect width="40" height="40" rx="10" fill="rgba(255,255,255,0.08)" stroke="#c9a56a" strokeWidth="1" />
-        <path d="M9 26 20 13l11 13" stroke="#c9a56a" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15 26v-5m10 5v-5" stroke={dark ? '#e8edf4' : '#fff'} strokeWidth="2" strokeLinecap="round" />
-      </svg>
-      <span className="logo-text">
-        <strong>HORIZON</strong>
-        <small>PROPERTIES</small>
-      </span>
-    </Link>
-  )
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
+    <form className={`searchbar ${mobile ? 'searchbar-mobile' : ''}`} onSubmit={submit} role="search" ref={boxRef}>
+      <label className="sr-only" htmlFor={mobile ? 'search-m' : 'search-d'}>جستجو در محصولات</label>
+      <input
+        id={mobile ? 'search-m' : 'search-d'}
+        type="search"
+        placeholder="جستجوی محصول، ولتاژ یا آمپراژ…"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        onFocus={() => setFocused(true)}
+        autoComplete="off"
+      />
+      <button type="submit" aria-label="جستجو"><Icon name="search" size={17} /></button>
+      {focused && suggestions.length > 0 && (
+        <ul className="search-suggestions" role="listbox">
+          {suggestions.map((p) => (
+            <li key={p.id}>
+              <button
+                type="button"
+                onClick={() => { navigate(`/product/${p.id}`); setQ(''); setFocused(false) }}
+              >
+                <img src={p.image} alt="" loading="lazy" />
+                <span className="s-name">{p.name}</span>
+                <span className="s-price">{faPrice(p.price)}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </form>
   )
 }
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const { cartCount, setCartOpen } = useStore()
   const location = useLocation()
-  const onDarkHero = location.pathname === '/' || location.pathname.startsWith('/properties/')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30)
+    const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => setOpen(false), [location.pathname])
-
+  useEffect(() => setMenuOpen(false), [location.pathname])
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => (document.body.style.overflow = '')
-  }, [open])
-
-  const solid = scrolled || open || !onDarkHero
+  }, [menuOpen])
 
   return (
-    <header className={`site-header ${solid ? 'scrolled' : ''}`} data-dark-hero={onDarkHero}>
-      <div className="container header-inner">
-        <Logo />
-        <nav className="nav" aria-label="Primary">
-          {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.to === '/'} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="header-right">
-          <a className="header-phone" href="tel:+15552467890">
-            <PhoneIcon />
-            <span>(555) 246-7890</span>
-          </a>
-          <button
-            className={`burger ${open ? 'open' : ''}`}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen(!open)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+    <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
+      <div className="header-main">
+        <div className="container header-inner">
+          <Link to="/" className="logo" aria-label="آتریا الکترونیک — صفحه اصلی">
+            <img src={LOGO_HEADER} alt="لوگوی آتریا الکترونیک" width="140" height="40" />
+          </Link>
+
+          <nav className="nav" aria-label="فهرست اصلی">
+            {navLinks.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.to === '/'} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="header-actions">
+            <SearchBar />
+            <Link to="/wishlist" className="icon-btn" aria-label="علاقه‌مندی‌ها"><Icon name="heart" size={20} /></Link>
+            <button className="icon-btn cart-btn" onClick={() => setCartOpen(true)} aria-label={`سبد خرید، ${cartCount} کالا`}>
+              <Icon name="cart" size={20} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount.toLocaleString('fa-IR')}</span>}
+            </button>
+            <button
+              className={`burger ${menuOpen ? 'open' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'بستن منو' : 'باز کردن منو'}
+              aria-expanded={menuOpen}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className={`mobile-menu ${open ? 'open' : ''}`} aria-hidden={!open}>
-        <nav aria-label="Mobile">
-          {links.map((l, i) => (
-            <NavLink key={l.to} to={l.to} end={l.to === '/'} style={{ transitionDelay: `${open ? i * 40 + 80 : 0}ms` }} className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
+        <SearchBar mobile />
+        <nav aria-label="فهرست موبایل">
+          {navLinks.map((l, i) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.to === '/'}
+              style={{ transitionDelay: `${menuOpen ? i * 40 + 60 : 0}ms` }}
+              className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}
+            >
               {l.label}
+              <Icon name="chevronLeft" size={18} />
             </NavLink>
           ))}
         </nav>
-        <div className="mobile-contact">
-          <a href="tel:+15552467890"><PhoneIcon /> (555) 246-7890</a>
-          <a href="mailto:hello@horizonproperties.com">hello@horizonproperties.com</a>
-        </div>
+        <a className="mobile-phone" href={`tel:${PHONE_INTL}`} dir="ltr">
+          <Icon name="phone" size={16} /> {PHONE}
+        </a>
       </div>
     </header>
   )

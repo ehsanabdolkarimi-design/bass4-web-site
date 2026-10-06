@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-/** Wraps children in a fade-up reveal driven by IntersectionObserver. */
 export default function Reveal({ children, delay = 0, as: Tag = 'div', className = '', ...rest }) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -15,7 +14,7 @@ export default function Reveal({ children, delay = 0, as: Tag = 'div', className
           io.disconnect()
         }
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' },
     )
     io.observe(el)
     return () => io.disconnect()

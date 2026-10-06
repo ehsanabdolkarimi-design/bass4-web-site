@@ -8,5 +8,7 @@ export default defineConfig({
     allowedHosts: true,
     port: 5173,
     strictPort: true,
+    // bind-mount inotify events don't propagate reliably — poll for changes
+    watch: { usePolling: true, interval: 400 },
   },
 })
