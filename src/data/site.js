@@ -1,7 +1,9 @@
 // ATRYA Electronic — site-wide content (nav, benefits, hours, contact)
 // All external assets are the REAL brand assets from atryaelectronic.com
 
-export const CDN = 'https://atryaelectronic.com/wp-content/uploads'
+// Local copies of the REAL atryaelectronic.com assets (downloaded verbatim into public/),
+// so images load without depending on the origin server.
+export const CDN = '/wp-content/uploads'
 
 export const LOGO_HEADER = `${CDN}/2026/06/ATRYA-logo-header-optimized88888888888-350x100.webp`
 export const LOGO_WHITE = `${CDN}/2026/06/ATRYA_Logo_500x500_White-300x300.png`

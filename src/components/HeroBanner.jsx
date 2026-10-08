@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 const slides = [
   {
-    src: 'https://atryaelectronic.com/wp-content/uploads/2026/06/00000000.png',
+    src: '/wp-content/uploads/2026/06/00000000.png',
     alt: 'بنر اصلی آتریا الکترونیک — خرید پاور ۲۴ ولت صنعتی',
   },
   {
-    src: 'https://atryaelectronic.com/wp-content/uploads/2026/06/ATRYA_Zephyr_Hero_1920x900-2222222.webp',
+    src: '/wp-content/uploads/2026/06/ATRYA_Zephyr_Hero_1920x900-2222222.webp',
     alt: 'بنر محصولات پاور سوئیچینگ آتریا الکترونیک',
   },
   {
-    src: 'https://atryaelectronic.com/wp-content/uploads/2026/07/ATRYA_LED_HERO_1920x900.webp',
+    src: '/wp-content/uploads/2026/07/ATRYA_LED_HERO_1920x900.webp',
     alt: 'بنر محصولات ال ای دی آتریا الکترونیک',
   },
 ]

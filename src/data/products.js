@@ -479,7 +479,7 @@ export const products = [
     name: 'ال ای دی اوال آبی ONYX',
     category: 'led', type: 'LED اوال',
     sku: 'ATR-LED-O-BLU',
-    price: 2000000,
+    price: 1800000,
     voltage: 0, current: 0, wattage: 0,
     image: img('2026/07/ATRYA_LED_BLUE_500x500_optimized-300x300.webp'),
     imageLarge: large('2026/07/ATRYA_LED_BLUE_500x500_optimized-300x300.webp'),
@@ -493,10 +493,33 @@ export const products = [
     advantages: ['رنگ جذاب شبانه', 'کیفیت بالا'],
     faq: [],
   }),
+  P({
+    id: 'solder-08mm',
+    name: 'سیم لحیم اکتیو ۰.۸ میلیمتر ۲۵۰ گرمی',
+    category: 'solder', type: 'سیم لحیم',
+    sku: 'ATR-SL-0.8MM',
+    price: 2500000,
+    voltage: 0, current: 0, wattage: 0,
+    image: img('2025/12/ATRYA_ELECTRONIC_Activity_Solder_500g_0.8mm-300x300.webp'),
+    imageLarge: large('2025/12/ATRYA_ELECTRONIC_Activity_Solder_500g_0.8mm-300x300.webp'),
+    short: 'سیم لحیم اکتیو با قطر ۰.۸ میلی‌متر و وزن ۲۵۰ گرم، مناسب لحیم‌کاری برد و تجهیزات الکترونیکی.',
+    description:
+      'سیم لحیم اکتیو ۰.۸ میلی‌متر ۲۵۰ گرمی با هسته فلاکس اکتیو، جریان لحیم روان و اتصال تمیز روی بردهای الکترونیکی ایجاد می‌کند و برای لحیم‌کاری دقیق قطعات SMD و DIP مناسب است.',
+    specs: [
+      ['نوع', 'سیم لحیم اکتیو (Active)'],
+      ['قطر', '0.8mm'],
+      ['وزن', '250g'],
+      ['برند', 'ONYX'],
+    ],
+    applications: ['لحیم‌کاری برد الکترونیکی', 'قطعات SMD و DIP', 'تعمیرات مدار'],
+    advantages: ['فلاکس اکتیو', 'لحیم تمیز و روان'],
+    faq: [],
+  }),
 ]
 
 export const categories = [
   { key: 'all', label: 'همه محصولات' },
+  { key: 'solder', label: 'سیم لحیم' },
   { key: 'power-12v', label: 'پاور 12 ولت' },
   { key: 'power-24v', label: 'پاور 24 ولت' },
   { key: 'fan', label: 'پاور فن‌دار' },
