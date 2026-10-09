@@ -24,6 +24,7 @@ export const navLinks = [
   { to: '/articles', label: 'مقالات آموزشی' },
   { to: '/about', label: 'درباره ما' },
   { to: '/contact', label: 'تماس با ما' },
+  { to: '/order-form', label: 'ثبت سفارش' },
 ]
 
 export const topBarItems = [

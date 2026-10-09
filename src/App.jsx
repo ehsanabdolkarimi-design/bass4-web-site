@@ -13,6 +13,7 @@ import ArticleDetail from './pages/ArticleDetail'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Checkout from './pages/Checkout'
+import OrderForm from './pages/OrderForm'
 import Wishlist from './pages/Wishlist'
 import Brands from './pages/Brands'
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-form" element={<OrderForm />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/brands" element={<Brands />} />
           <Route path="*" element={<NotFound />} />
