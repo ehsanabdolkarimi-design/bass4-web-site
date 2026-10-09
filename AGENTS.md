@@ -19,7 +19,7 @@ Vite dev server on host port 3000 (container 5173). Dependencies install at cont
 ## Structure
 
 - `src/data/products.js` — 23 REAL products (names, prices, photos from atryaelectronic.com). Add products here.
-- `src/data/articles.js` — 4 educational articles (sections, FAQ, related products)
+- `src/data/articles.js` — 68 real blog posts of atryaelectronic.com (titles/links verbatim; images served locally from public/wp-content/uploads)
 - `src/data/site.js` — nav, top bar, benefits, business hours, contact, CDN base + logo URLs
 - `src/context/StoreContext.jsx` — cart + wishlist (localStorage: `atrya-cart`, `atrya-wishlist`, `atrya-orders`)
 - `src/styles/global.css` — design tokens at top: `--navy #031731`, `--gold #F7B500`
@@ -28,7 +28,7 @@ Vite dev server on host port 3000 (container 5173). Dependencies install at cont
 ## Critical notes
 
 - **RTL:** `<html dir="rtl" lang="fa-IR">` in index.html. Numbers via `toLocaleString('fa-IR')` / helpers in `src/utils/format.js`.
-- **Images are hotlinked** from atryaelectronic.com — curl to that host fails from the sandbox (TLS), so they cannot be downloaded locally. `SmartImg` falls back to a neutral placeholder if a full-size URL 404s.
+- **Images are served locally** from `public/wp-content/uploads` (downloaded verbatim from atryaelectronic.com via the `images.weserv.nl` proxy — direct curl to that host fails from the sandbox). `SmartImg` falls back to a neutral placeholder if an image 404s.
 - **Vite polling is enabled** (`watch.usePolling`) — bind-mount inotify events do not propagate reliably in this sandbox; without polling, edited modules are served stale.
 - Product images must NEVER be redesigned/relabeled — they are the official ONYX product photos.
 - No secrets needed; no backend — all data is client-side modules structured for a later API swap. Checkout deliberately does NOT fake a payment success: it records the order and states the payment gateway is not yet connected.
