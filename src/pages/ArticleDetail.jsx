@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumbs } from '../components/Section'
 import Icon from '../components/Icon'
@@ -11,6 +11,21 @@ import { faDate, toFa } from '../utils/format'
 export default function ArticleDetail() {
   const { id } = useParams()
   const article = getArticle(id)
+
+  // Blog posts live on atryaelectronic.com — send the visitor to the real article.
+  useEffect(() => {
+    if (article?.url) window.location.replace(article.url)
+  }, [article])
+
+  if (article?.url) {
+    return (
+      <section className="page-hero"><div className="container">
+        <h1>{article.title}</h1>
+        <p>در حال انتقال به متن کامل مقاله… <a href={article.url} target="_blank" rel="noopener">مشاهده مقاله</a></p>
+        <Link to="/articles" className="btn btn-gold" style={{ marginTop: 20 }}>بازگشت به مقالات</Link>
+      </div></section>
+    )
+  }
 
   if (!article) {
     return (

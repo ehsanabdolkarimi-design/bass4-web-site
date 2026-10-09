@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
-import { LOGO_WHITE, navLinks, PHONE, PHONE_INTL, SITE_URL, businessHours } from '../data/site'
+import { LOGO_WHITE, navLinks, PHONE, PHONE_INTL, SITE_URL, ADDRESS, businessHours } from '../data/site'
 
 const services = ['پیگیری سفارش', 'شرایط ارسال', 'قوانین و مقررات', 'حریم خصوصی', 'سوالات متداول']
 const socials = [
@@ -64,7 +64,7 @@ export default function Footer() {
             <ul className="footer-contact">
               <li><a href={`tel:${PHONE_INTL}`} dir="ltr"><Icon name="phone" size={15} /> {PHONE}</a></li>
               <li><span><Icon name="clock" size={15} /> {businessHours[0].days}: {businessHours[0].hours}</span></li>
-              <li><span><Icon name="pin" size={15} /> آدرس فروشگاه: به‌زودی تکمیل می‌شود</span></li>
+              <li><span><Icon name="pin" size={15} /> {ADDRESS}</span></li>
             </ul>
             <h4 className="mt">خبرنامه</h4>
             {subscribed ? (

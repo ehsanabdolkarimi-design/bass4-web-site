@@ -3,7 +3,10 @@ import { Breadcrumbs } from '../components/Section'
 import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
 import Seo from '../components/Seo'
-import { PHONE, PHONE_INTL, businessHours } from '../data/site'
+import { PHONE, PHONE_INTL, PHONE_LANDLINE, EMAIL, ADDRESS, GOOGLE_MAP_QUERY, businessHours } from '../data/site'
+
+const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(GOOGLE_MAP_QUERY)}&z=17&output=embed`
+const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(GOOGLE_MAP_QUERY)}`
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
@@ -27,7 +30,7 @@ export default function Contact() {
                 <span className="contact-icon"><Icon name="phone" size={20} /></span>
                 <div>
                   <h3>تماس تلفنی</h3>
-                  <p dir="ltr">{PHONE}</p>
+                  <p dir="ltr">{PHONE_LANDLINE} | {PHONE}</p>
                   <small>شنبه تا چهارشنبه ۹ تا ۱۷، پنجشنبه ۹ تا ۱۳</small>
                 </div>
               </Reveal>
@@ -35,7 +38,8 @@ export default function Contact() {
                 <span className="contact-icon"><Icon name="pin" size={20} /></span>
                 <div>
                   <h3>آدرس فروشگاه</h3>
-                  <p>آدرس فروشگاه حضوری: به‌زودی تکمیل می‌شود</p>
+                  <p>{ADDRESS}</p>
+                  <small>ایمیل: <a href={`mailto:${EMAIL}`} dir="ltr">{EMAIL}</a></small>
                 </div>
               </Reveal>
               <Reveal className="contact-card" delay={120}>
@@ -48,16 +52,18 @@ export default function Contact() {
                 </div>
               </Reveal>
             </div>
-            <Reveal className="contact-map" delay={150} aria-label="نقشه (به‌زودی)">
-              <svg viewBox="0 0 600 260" role="img" aria-label="جایگاه نقشه — به‌زودی تکمیل می‌شود">
-                <rect width="600" height="260" fill="#eef1f6" />
-                <g stroke="#dde3ec" strokeWidth="2">
-                  <path d="M0 60h600M0 140h600M0 210h600M90 0v260M230 0v260M380 0v260M510 0v260" />
-                </g>
-                <circle cx="300" cy="130" r="34" fill="#f7b500" opacity="0.9" />
-                <path d="M292 112l-9 15h7l-2 14 9-15h-7l2-14Z" fill="#031731" />
-                <text x="300" y="192" textAnchor="middle" fontFamily="Vazirmatn, sans-serif" fontSize="15" fill="#031731">موقعیت فروشگاه — به‌زودی</text>
-              </svg>
+            <Reveal className="contact-map" delay={150} aria-label="نقشه فروشگاه">
+              <iframe
+                title="نقشه فروشگاه آتریا الکترونیک — گوگل مپ"
+                src={mapEmbed}
+                width="100%"
+                height="320"
+                style={{ border: 0, display: 'block' }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <a className="map-link" href={mapLink} target="_blank" rel="noopener">برای دیدن نقشه در گوگل مپ کلیک کنید</a>
             </Reveal>
           </div>
 

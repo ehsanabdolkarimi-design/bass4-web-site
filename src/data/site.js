@@ -11,6 +11,11 @@ export const SITE_URL = 'https://atryaelectronic.com'
 export const SITE_NAME = 'آتریا الکترونیک'
 export const PHONE = '09126709618'
 export const PHONE_INTL = '+989126709618'
+export const PHONE_LANDLINE = '02166766022'
+export const EMAIL = 'info@atryaelectronic.com'
+// Real store address + Google Maps query (same location as atryaelectronic.com/contact/)
+export const ADDRESS = 'تهران، خیابان جمهوری، تقاطع سی‌تیر، پاساژ فرقانی، طبقه ۱، واحد ۴'
+export const GOOGLE_MAP_QUERY = 'تهران خیابان جمهوری تقاطع سی تیر پاساژ فرقانی'
 
 export const navLinks = [
   { to: '/', label: 'صفحه اصلی' },

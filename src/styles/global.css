@@ -564,7 +564,9 @@ ul, ol { margin: 0; padding: 0; }
 }
 .article-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
 .ac-media { position: relative; display: block; }
-.ac-img { width: 100%; aspect-ratio: 16 / 9; display: block; transition: opacity 0.3s ease; }
+.ac-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; transition: opacity 0.3s ease; }
+.map-link { display: block; padding: 10px 14px; font-size: 0.82rem; font-weight: 700; color: var(--navy); background: #eef1f6; text-align: center; }
+.map-link:hover { color: var(--gold); }
 .article-card:hover .ac-img { opacity: 0.9; }
 .ac-cat {
   position: absolute; top: 12px; right: 12px;
