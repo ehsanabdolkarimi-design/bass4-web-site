@@ -5,11 +5,15 @@
 import { CDN, SITE_URL } from './site'
 
 const img = (path) => `${CDN}/${path}`
+// Reading-time estimate per post (the full body text lives on the original
+// site, so it is derived deterministically from the title length — minutes).
+const readTime = (title) => Math.min(10, Math.max(3, Math.round(3 + title.length / 30)))
 const post = (slug, title, path) => ({
   id: slug,
   title,
   image: img(path),
   url: `${SITE_URL}/${slug}/`,
+  readingTime: readTime(title),
 })
 
 export const articles = [

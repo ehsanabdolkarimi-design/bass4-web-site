@@ -1,5 +1,7 @@
 import React from 'react'
 import SmartImg from './SmartImg'
+import Icon from './Icon'
+import { toFa } from '../utils/format'
 
 /** Real blog-post card — same image and link as atryaelectronic.com/blog/ */
 export default function ArticleCard({ article }) {
@@ -15,6 +17,9 @@ export default function ArticleCard({ article }) {
         <SmartImg src={article.image} alt={article.title} className="ac-img" />
       </a>
       <div className="ac-body">
+        <div className="ac-meta">
+          <span><Icon name="clock" size={13} /> {toFa(article.readingTime)} دقیقه مطالعه</span>
+        </div>
         <h3>
           <a href={article.url} target="_blank" rel="noopener">{article.title}</a>
         </h3>
