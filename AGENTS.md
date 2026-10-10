@@ -14,6 +14,7 @@ Vite dev server on host port 3000 (container 5173). Dependencies install at cont
 
 - `docker compose -f docker-compose.base44.yml ps` — `web` healthy
 - `curl -s http://localhost:3000/` — app HTML (SPA fallback works for all routes)
+- Run `docker compose -f docker-compose.base44.yml exec -T web npm run build` when diagnosing loading: HTTP 200 can hide missing module exports. `ArticleDetail` requires the `getArticle` export from `src/data/articles.js`; a missing export prevents the entire app from mounting.
 - All routes: `/`, `/shop`, `/product/:id`, `/articles`, `/article/:id`, `/about`, `/contact`, `/checkout`, `/wishlist`, `/brands`
 
 ## Structure

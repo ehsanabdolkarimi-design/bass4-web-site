@@ -4,6 +4,8 @@
 // article on atryaelectronic.com.
 import { CDN, SITE_URL } from './site'
 
+export const getArticle = (id) => articles.find((article) => article.id === id)
+
 const img = (path) => `${CDN}/${path}`
 // Reading-time estimate per post (the full body text lives on the original
 // site, so it is derived deterministically from the title length — minutes).
